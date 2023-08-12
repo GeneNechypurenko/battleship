@@ -9,18 +9,17 @@ using namespace std;
 class Gameplay
 {
 private:
+	bool gameMode;
+	bool deployment;
+
 	Board player;
+	Board demo;
 	Board opponent;
 
-	Renderer rend;
+	Menu menu;
 
 public:
-	void deploymentManualyPlayer(Board& b);
-	void deploymentAutoPlayer(Board& b);
-
-	void deploymentAutoOpponent(Board& b);
-
-	void shootingPlayer(Board& b);
+	explicit Gameplay();
 
 	void startGame();
 	void playGame();

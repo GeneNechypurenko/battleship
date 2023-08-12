@@ -7,7 +7,7 @@
 using namespace std;
 
 const char DECK = 254;
-const char HIT = 120;
+const char HIT = 'X';
 
 const int SHIPCOUNT = 10;
 

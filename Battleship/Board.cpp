@@ -84,18 +84,9 @@ void Board::outputEnemyBoard()
 
 		for (int j = 0; j < BOARDSIZE; j++)
 		{
-			if (gameBoard[i][j] == HIT || gameBoard[i][j] == MISS || gameBoard[i][j] == SIGHT)
+			if (gameBoard[i][j] == HIT || gameBoard[i][j] == MISS)
 			{
-				if (gameBoard[i][j] == SIGHT)
-				{
-					rend.outputColor(STANDART);
-					cout << gameBoard[i][j] << " ";
-					rend.outputColor(RED);
-				}
-				else
-				{
-					cout << gameBoard[i][j] << " ";
-				}
+				cout << gameBoard[i][j] << " ";
 			}
 			else
 			{
@@ -479,33 +470,105 @@ void Board::deploymentRotate(int index, int x, int y, bool& isVertical)
 	}
 }
 
-void Board::shootingPlaceSight(int x, int y)
+void Board::deploymentManualyRevealBoard(Board& b)
 {
-	gameBoard[y][x] = SIGHT;
-}
+	char keyHit;
 
-void Board::shootingClearSight(int x, int y)
-{
-	if (gameBoard[y][x] == SIGHT)
-		gameBoard[y][x] = WATER;
-}
+	bool isVertical = false;
 
-void Board::shootingFindAvailablePlacement(int& x, int& y)
-{
-	int j = x + 1;
-	int i = y + 1;
+	int x = 0;
+	int y = 0;
 
-	for (i; i < BOARDSIZE; i++)
+	int index = 0;
+
+	while (index < SHIPCOUNT)
 	{
-		for (j; j < BOARDSIZE; j++)
+		b.deploymentPlaceShip(index, x, y, isVertical);
+
+		b.outputPlayerBoard();
+
+		keyHit = _getch();
+
+		switch (keyHit)
 		{
-			if (gameBoard[y][x] != MISS && gameBoard[y][x] != HIT)
-			{
-				x = j;
-				y = i;
-				return;
-			}
+		case UP:
+			b.deploymentMoveUp(index, x, y, isVertical);
+			break;
+
+		case DOWN:
+			b.deploymentMoveDown(index, x, y, isVertical);
+			break;
+
+		case LEFT:
+			b.deploymentMoveLeft(index, x, y, isVertical);
+			break;
+
+		case RIGHT:
+			b.deploymentMoveRight(index, x, y, isVertical);
+			break;
+
+		case SPACE:
+			b.deploymentRotate(index, x, y, isVertical);
+			break;
+
+		case ENTER:
+			b.deploymentSetIsOccupied(index, x, y, isVertical);
+			b.deploymentFindAvailablePlacement(index, x, y, isVertical);
+			index++;
+			break;
 		}
+	}
+}
+
+void Board::deploymentAutoRevealBoard(Board& b)
+{
+	srand(time(0));
+	int index = 0;
+
+	while (index < SHIPCOUNT)
+	{
+		int x;
+		int y;
+		bool isVertical;
+
+		b.outputPlayerBoard();
+
+		do {
+			x = rand() % BOARDSIZE;
+			y = rand() % BOARDSIZE;
+			isVertical = rand() % 2;
+
+		} while (!b.deploymentCheckAvailability(index, x, y, isVertical));
+
+		Sleep(500), b.deploymentPlaceShip(index, x, y, isVertical);
+		b.deploymentSetIsOccupied(index, x, y, isVertical);
+
+		index++;
+	}
+}
+
+void Board::deploymentAutoHiddenBoard(Board& b)
+{
+	srand(time(0));
+	int index = 0;
+
+	while (index < SHIPCOUNT)
+	{
+		int x;
+		int y;
+		bool isVertical;
+
+		do {
+			x = rand() % BOARDSIZE;
+			y = rand() % BOARDSIZE;
+			isVertical = rand() % 2;
+
+		} while (!b.deploymentCheckAvailability(index, x, y, isVertical));
+
+		b.deploymentPlaceShip(index, x, y, isVertical);
+		b.deploymentSetIsOccupied(index, x, y, isVertical);
+
+		index++;
 	}
 }
 
@@ -538,66 +601,71 @@ void Board::shootingTakeShot(int& x, int& y)
 	}
 }
 
-void Board::shootingMoveUp(int& x, int& y)
+
+void Board::shootingPlayer(Board& b)
 {
-	shootingClearSight(x, y);
+	rend.hideCursor(false);
 
-	y = (y - 1 + BOARDSIZE) % BOARDSIZE;
+	bool endTurn = false;
+	int x, y;
 
-	if (gameBoard[y][x] == MISS || gameBoard[y][x] == HIT)
+	char actionKey;
+
+	while (!endTurn)
 	{
-		while (gameBoard[y][x] == MISS || gameBoard[y][x] == HIT)
+		b.outputEnemyBoard();
+
+		sight.outputSight();
+
+		actionKey = _getch();
+
+		switch (actionKey)
 		{
-			y = (y - 1 + BOARDSIZE) % BOARDSIZE;
+		case UP:
+			sight.moveUp();
+			break;
+
+		case DOWN:
+			sight.moveDown();
+			break;
+
+		case LEFT:
+			sight.moveLeft();
+			break;
+
+		case RIGHT:
+			sight.moveRight();
+			break;
+
+		case SPACE:
+			x = sight.convertToGameBoardX();
+			y = sight.convertToGameBoardY();
+			b.shootingTakeShot(x, y);
+			sight.setDefault();
+			endTurn = true;
 		}
 	}
+	return;
 }
 
-void Board::shootingMoveDown(int& x, int& y)
+void Board::shootingOpponentRandomly(Board& b)
 {
-	shootingClearSight(x, y);
+	bool endTurn = false;
+	int x, y;
 
-	y = (y + 1) % BOARDSIZE;
-
-	if (gameBoard[y][x] == MISS || gameBoard[y][x] == HIT)
+	while (!endTurn)
 	{
-		while (gameBoard[y][x] == MISS || gameBoard[y][x] == HIT)
+		x = rand() % 10;
+		y = rand() % 10;
+
+		if (b.shootingGetShotResult(x, y) != HIT && b.shootingGetShotResult(x, y) != MISS)
 		{
-			y = (y + 1) % BOARDSIZE;
+			b.shootingCheckHit(x, y);
+			endTurn = true;
 		}
 	}
+	return;
 }
-
-void Board::shootingMoveLeft(int& x, int& y)
-{
-	shootingClearSight(x, y);
-
-	x = (x - 1 + BOARDSIZE) % BOARDSIZE;
-
-	if (gameBoard[y][x] == MISS || gameBoard[y][x] == HIT)
-	{
-		while (gameBoard[y][x] == MISS || gameBoard[y][x] == HIT)
-		{
-			x = (x - 1 + BOARDSIZE) % BOARDSIZE;
-		}
-	}
-}
-
-void Board::shootingMoveRight(int& x, int& y)
-{
-	shootingClearSight(x, y);
-
-	x = (x + 1) % BOARDSIZE;
-
-	if (gameBoard[y][x] == MISS || gameBoard[y][x] == HIT)
-	{
-		while (gameBoard[y][x] == MISS || gameBoard[y][x] == HIT)
-		{
-			x = (x + 1) % BOARDSIZE;
-		}
-	}
-}
-
 
 //void Board::printOccupiedCells()
 //{

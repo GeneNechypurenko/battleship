@@ -1,7 +1,10 @@
 #pragma once
 
+#include <conio.h>
+
 #include "Fleet.h"
 #include "Renderer.h"
+#include "Sight.h"
 
 const int BOARDSIZE = 10;
 
@@ -16,8 +19,6 @@ const char WATER = 32;
 const char MISS = 15;
 const char OCCUPIED = 250;
 
-const char SIGHT = 43;
-
 class Board
 {
 private:
@@ -26,6 +27,7 @@ private:
 
 	Renderer rend;
 	Fleet ship;
+	Sight sight;
 
 public:
 	explicit Board();
@@ -44,23 +46,18 @@ public:
 	void deploymentMoveRight(int index, int& x, int y, bool isVertical);
 	void deploymentRotate(int index, int x, int y, bool& isVertical);
 
-	void shootingPlaceSight(int x, int y);
-	void shootingClearSight(int x, int y);
-	void shootingFindAvailablePlacement(int& x, int& y);
+	void deploymentManualyRevealBoard(Board& b);
+	void deploymentAutoRevealBoard(Board& b);
+	void deploymentAutoHiddenBoard(Board& b);
+
 	char shootingGetShotResult(int x, int y);
 	bool shootingCheckHit(int x, int y);
 	void shootingTakeShot(int& x, int& y);
-	void shootingMoveUp(int& x, int& y);
-	void shootingMoveDown(int& x, int& y);
-	void shootingMoveLeft(int& x, int& y);
-	void shootingMoveRight(int& x, int& y);
+	void shootingPlayer(Board& b);
+	void shootingOpponentRandomly(Board& b);
 
 
 
 
-
-
-
-	void printB();
 	void printOccupiedCells();
 };

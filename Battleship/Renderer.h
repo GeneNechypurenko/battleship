@@ -10,9 +10,20 @@ enum textcolor
 	RED = 4
 };
 
+enum navikeys
+{
+	ENTER = 13,
+	ESC = 27,
+	SPACE = 32,
+	UP = 72,
+	DOWN = 80,
+	LEFT = 75,
+	RIGHT = 77
+};
+
 class Renderer
 {
-	static HANDLE hSettings;
+	static HANDLE hRenderer;
 
 public:
 	void outputAt(short x, short y);
