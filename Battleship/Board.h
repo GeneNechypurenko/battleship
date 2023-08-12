@@ -46,6 +46,7 @@ public:
 
 	void shootingPlaceSight(int x, int y);
 	void shootingClearSight(int x, int y);
+	void shootingFindAvailablePlacement(int& x, int& y);
 	char shootingGetShotResult(int x, int y);
 	bool shootingCheckHit(int x, int y);
 	void shootingTakeShot(int& x, int& y);

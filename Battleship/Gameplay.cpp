@@ -107,20 +107,16 @@ void Gameplay::deploymentAutoOpponent(Board& b)
 void Gameplay::shootingPlayer(Board& b)
 {
 	char actionKey;
+
 	int x = 0;
 	int y = 0;
-	int hits = 0;
-	int next = 0;
 
 	while (true)
 	{
 		b.shootingPlaceSight(x, y);
-
 		b.outputEnemyBoard();
 
 		actionKey = _getch();
-		if (actionKey == 0 || actionKey == 224)
-			actionKey = _getch();
 
 		switch (actionKey)
 		{

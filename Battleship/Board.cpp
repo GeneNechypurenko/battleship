@@ -490,6 +490,25 @@ void Board::shootingClearSight(int x, int y)
 		gameBoard[y][x] = WATER;
 }
 
+void Board::shootingFindAvailablePlacement(int& x, int& y)
+{
+	int j = x + 1;
+	int i = y + 1;
+
+	for (i; i < BOARDSIZE; i++)
+	{
+		for (j; j < BOARDSIZE; j++)
+		{
+			if (gameBoard[y][x] != MISS && gameBoard[y][x] != HIT)
+			{
+				x = j;
+				y = i;
+				return;
+			}
+		}
+	}
+}
+
 char Board::shootingGetShotResult(int x, int y)
 {
 	return gameBoard[y][x];
@@ -522,25 +541,61 @@ void Board::shootingTakeShot(int& x, int& y)
 void Board::shootingMoveUp(int& x, int& y)
 {
 	shootingClearSight(x, y);
+
 	y = (y - 1 + BOARDSIZE) % BOARDSIZE;
+
+	if (gameBoard[y][x] == MISS || gameBoard[y][x] == HIT)
+	{
+		while (gameBoard[y][x] == MISS || gameBoard[y][x] == HIT)
+		{
+			y = (y - 1 + BOARDSIZE) % BOARDSIZE;
+		}
+	}
 }
 
 void Board::shootingMoveDown(int& x, int& y)
 {
 	shootingClearSight(x, y);
+
 	y = (y + 1) % BOARDSIZE;
+
+	if (gameBoard[y][x] == MISS || gameBoard[y][x] == HIT)
+	{
+		while (gameBoard[y][x] == MISS || gameBoard[y][x] == HIT)
+		{
+			y = (y + 1) % BOARDSIZE;
+		}
+	}
 }
 
 void Board::shootingMoveLeft(int& x, int& y)
 {
 	shootingClearSight(x, y);
+
 	x = (x - 1 + BOARDSIZE) % BOARDSIZE;
+
+	if (gameBoard[y][x] == MISS || gameBoard[y][x] == HIT)
+	{
+		while (gameBoard[y][x] == MISS || gameBoard[y][x] == HIT)
+		{
+			x = (x - 1 + BOARDSIZE) % BOARDSIZE;
+		}
+	}
 }
 
 void Board::shootingMoveRight(int& x, int& y)
 {
 	shootingClearSight(x, y);
+
 	x = (x + 1) % BOARDSIZE;
+
+	if (gameBoard[y][x] == MISS || gameBoard[y][x] == HIT)
+	{
+		while (gameBoard[y][x] == MISS || gameBoard[y][x] == HIT)
+		{
+			x = (x + 1) % BOARDSIZE;
+		}
+	}
 }
 
 
