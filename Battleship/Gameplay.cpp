@@ -3,12 +3,17 @@
 Gameplay::Gameplay()
 	:
 	gameMode(true),
-	deployment(true)
+	deployment(true),
+	countHitsPlayer(0),
+	countHitsOpponent(0),
+	winCondition(20)
 {}
 
 void Gameplay::startGame()
 {
 	gameMode = menu.selectGameMode();
+
+	rend.hideCursor(false);
 
 	if (gameMode)
 	{
@@ -54,45 +59,57 @@ void Gameplay::playGame()
 
 	startGame();
 
+	rend.hideCursor(false);
+
 	if (gameMode)
 	{
 		while (true)
 		{
+			menu.counterPlayerHits(countHitsPlayer, winCondition);
+			menu.counterOpponetsHits(countHitsOpponent, winCondition);
+
 			if (isPlayer)
 			{
 				player.outputPlayerBoard();
-				bptr = &opponent;
-				player.shootingPlayer(*(bptr));
-				isPlayer = false;
+				bptr = &player;
+				isPlayer = player.shootingPlayer(*(bptr), countHitsPlayer) ? true : false;
+				menu.declareWinnerPlayer(countHitsPlayer, winCondition);
 			}
 			else
 			{
 				bptr = &player;
-				opponent.shootingOpponentRandomly(*(bptr));
-				isPlayer = true;
+				isPlayer = opponent.shootingOpponentRandomly(*(bptr), countHitsOpponent) ? false : true;
+				menu.declareWinnerOpponent(countHitsOpponent, winCondition);
 			}
 		}
+
+		return;
 	}
+
 	else
 	{
-		while (true)
+		while (countHitsPlayer < winCondition || countHitsOpponent < winCondition)
 		{
 			Sleep(500);
+			menu.counterPlayerHits(countHitsPlayer, winCondition);
+			menu.counterOpponetsHits(countHitsOpponent, winCondition);
 
 			if (isDemo)
 			{
 				demo.outputPlayerBoard();
 				opponent.outputEnemyBoard();
 				bptr = &opponent;
-				demo.shootingOpponentRandomly(*(bptr));
-				isDemo = false;
+				isDemo = demo.shootingOpponentRandomly(*(bptr), countHitsPlayer) ? true : false;
+				menu.declareWinnerPlayer(countHitsPlayer, winCondition);
 			}
 			else
 			{
 				bptr = &demo;
-				opponent.shootingOpponentRandomly(*(bptr));
-				isDemo = true;
+				isDemo = opponent.shootingOpponentRandomly(*(bptr), countHitsOpponent) ? false : true;
+				menu.declareWinnerOpponent(countHitsOpponent, winCondition);
 			}
 		}
+
+		return;
 	}
 }

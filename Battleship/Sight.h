@@ -7,11 +7,11 @@
 
 using namespace std;
 
-const int YMIN = 4;
-const int YMAX = 13;
+const int YMIN = 10;
+const int YMAX = 19;
 
-const int XMIN = 32;
-const int XMAX = 50;
+const int XMIN = 63;
+const int XMAX = 81;
 
 class Sight
 {

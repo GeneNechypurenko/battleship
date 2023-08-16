@@ -12,11 +12,16 @@ private:
 	bool gameMode;
 	bool deployment;
 
+	int countHitsPlayer;
+	int countHitsOpponent;
+	const int winCondition;
+
 	Board player;
 	Board demo;
 	Board opponent;
 
 	Menu menu;
+	Renderer rend;
 
 public:
 	explicit Gameplay();

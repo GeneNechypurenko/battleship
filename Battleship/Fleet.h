@@ -37,8 +37,8 @@ private:
 		string type;
 		int shipX;
 		int shipY;
-		bool isVertical; // true = vertical, false = horizontal
-		bool isActive; // true = active, false = destroyed
+		bool isVertical;
+		bool isDestroyed;
 		vector <char> depiction;
 
 		Ship(int size, string type);
@@ -50,8 +50,16 @@ public:
 	explicit Fleet();
 
 	void setShipPosition(int index, int x, int y, bool isVertical);
-	int getSize(int index) const;
-	bool checkHit(int index, int x, int y);
+	void setIsDestroyed(int index, bool isDestroyed);
+	void setShipX(int index, int x);
+	void setShipY(int index, int y);
 
-	void printAll() const;
+	int getShipX(int index) const;
+	int getShipY(int index) const;
+	int getSize(int index) const;
+	bool getIsVertical(int index) const;
+	bool getIsDestroyed(int index) const;
+
+	bool checkHit(int index, int x, int y);
+	bool searchForHit(int index);
 };

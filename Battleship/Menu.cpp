@@ -59,7 +59,7 @@ bool Menu::selectDeploymentMethod()
     int index = 0;
     int rows = 2;
     char keyHit;
-    const char* menu[] = { "DEPLOY SHIPS BY YORSELF", "DEPLOY SHIPS AUTOMATICALLY" };
+    const char* menu[] = { "DEPLOY SHIPS BY YORSELF", "DEPLOY SHIPS AUTOMATIC" };
 
     rend.hideCursor(false);
 
@@ -103,5 +103,61 @@ bool Menu::selectDeploymentMethod()
         case ENTER:
             return index == 0;
         }
+    }
+}
+
+void Menu::counterPlayerHits(int countHits, int winCondition)
+{
+    short x = 37, y = 6;
+    rend.outputAt(x, y);
+    rend.outputColor(GREEN);
+    cout << "TARGETS LEFT: " << winCondition - countHits;
+    cout << "                   ";
+    rend.outputColor(STANDART);
+}
+
+void Menu::counterOpponetsHits(int countHits, int winCondition)
+{
+    short x = 63, y = 6;
+    rend.outputAt(x, y);
+    rend.outputColor(RED);
+    cout << "TARGETS LEFT: " << winCondition - countHits;
+    cout << "                   ";
+    rend.outputColor(STANDART);
+}
+
+void Menu::declareWinnerPlayer(int countHits, int winCondition)
+{
+    if (countHits == winCondition)
+    {
+        short x = 38, y = 14;
+
+        system("cls");
+
+        rend.outputAt(x, y);
+        rend.outputColor(HIGHLIGHT);
+        cout << "CONGRATULATIONS! YOU HAVE WON THE BATTLESHIP GAME!";
+        rend.outputColor(STANDART);
+
+        rend.outputAt(0, 28);
+        system("pause");
+    }
+}
+
+void Menu::declareWinnerOpponent(int countHits, int winCondition)
+{
+    if (countHits == winCondition)
+    {
+        short x = 40, y = 14;
+
+        system("cls");
+
+        rend.outputAt(x, y);
+        rend.outputColor(HIGHLIGHT);
+        cout << "YOUR OPPONENT HAS WON THE BATTLESHIP GAME";
+        rend.outputColor(STANDART);
+
+        rend.outputAt(0, 28);
+        system("pause");
     }
 }

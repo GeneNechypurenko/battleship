@@ -50,14 +50,13 @@ public:
 	void deploymentAutoRevealBoard(Board& b);
 	void deploymentAutoHiddenBoard(Board& b);
 
+	void shootingSetCellsToMiss(int index, int x, int y);
 	char shootingGetShotResult(int x, int y);
 	bool shootingCheckHit(int x, int y);
-	void shootingTakeShot(int& x, int& y);
-	void shootingPlayer(Board& b);
-	void shootingOpponentRandomly(Board& b);
+	bool shootingTakeShot(int& x, int& y);
+	bool shootingSearchForNextShot(int& x, int& y);
 
-
-
-
-	void printOccupiedCells();
+	bool shootingPlayer(Board& b, int& countHits);
+	bool shootingOpponentRandomly(Board& b, int& countHits);
+	bool shootingOpponentSmart(Board& b, int& countHits);  ///!!!!!!!!!
 };

@@ -14,10 +14,9 @@ Board::Board()
 
 void Board::outputPlayerBoard()
 {
-	short x = 5, y = 2;
+	short x = 35, y = 8;
 
 	rend.outputColor(GREEN);
-	rend.hideCursor(true);
 
 	rend.outputAt(x, y++);
 	cout << "   R E S P U B L I C A" << endl;
@@ -61,7 +60,7 @@ void Board::outputPlayerBoard()
 
 void Board::outputEnemyBoard()
 {
-	short x = 29, y = 2;
+	short x = 60, y = 8;
 
 	rend.outputColor(RED);
 
@@ -329,7 +328,7 @@ void Board::deploymentMoveDown(int index, int& x, int& y, bool& isVertical)
 	deploymentClearShip(index, x, y, isVertical);
 
 	if (y < BOARDSIZE - 1 && isVertical && deploymentCheckAvailability(index, x, y, isVertical)
-		|| y < BOARDSIZE - 1 && !isVertical && deploymentCheckAvailability(index, x, y, isVertical))
+		|| y + tail < BOARDSIZE - 1 && !isVertical && deploymentCheckAvailability(index, x, y, isVertical))
 	{
 		y++;
 
@@ -351,7 +350,7 @@ void Board::deploymentMoveDown(int index, int& x, int& y, bool& isVertical)
 	}
 }
 
-void Board::deploymentMoveLeft(int index, int& x, int y, bool isVertical)
+void Board::deploymentMoveLeft(int index, int& x, int y, bool isVertical)  //??!!
 {
 	int tail = ship.getSize(index) - 1;
 
@@ -365,7 +364,7 @@ void Board::deploymentMoveLeft(int index, int& x, int y, bool isVertical)
 		{
 			for (int j = x - 1; j >= 0; j--)
 			{
-				if (j >= 0 && deploymentCheckAvailability(index, j, y, isVertical))
+				if (!(j > 0) && deploymentCheckAvailability(index, j, y, isVertical))
 				{
 					x = j;
 					break;
@@ -379,14 +378,14 @@ void Board::deploymentMoveLeft(int index, int& x, int y, bool isVertical)
 	}
 }
 
-void Board::deploymentMoveRight(int index, int& x, int y, bool isVertical)
+void Board::deploymentMoveRight(int index, int& x, int y, bool isVertical)  //??!!
 {
 	int tail = ship.getSize(index) - 1;
 
 	deploymentClearShip(index, x, y, isVertical);
 
 	if (x < BOARDSIZE - 1 && isVertical && deploymentCheckAvailability(index, x, y, isVertical)
-		|| x < BOARDSIZE && !isVertical && deploymentCheckAvailability(index, x, y, isVertical))
+		|| x + tail < BOARDSIZE && !isVertical && deploymentCheckAvailability(index, x, y, isVertical))
 	{
 		x++;
 
@@ -394,7 +393,7 @@ void Board::deploymentMoveRight(int index, int& x, int y, bool isVertical)
 		{
 			for (int j = x + 1; j <= BOARDSIZE; j++)
 			{
-				if (j <= BOARDSIZE && deploymentCheckAvailability(index, x, j, isVertical))
+				if (!(j > BOARDSIZE) && deploymentCheckAvailability(index, j, x, isVertical))
 				{
 					x = j;
 					break;
@@ -523,6 +522,7 @@ void Board::deploymentManualyRevealBoard(Board& b)
 void Board::deploymentAutoRevealBoard(Board& b)
 {
 	srand(time(0));
+
 	int index = 0;
 
 	while (index < SHIPCOUNT)
@@ -550,6 +550,7 @@ void Board::deploymentAutoRevealBoard(Board& b)
 void Board::deploymentAutoHiddenBoard(Board& b)
 {
 	srand(time(0));
+
 	int index = 0;
 
 	while (index < SHIPCOUNT)
@@ -572,6 +573,92 @@ void Board::deploymentAutoHiddenBoard(Board& b)
 	}
 }
 
+void Board::shootingSetCellsToMiss(int index, int x, int y)  //??!!
+{
+	int head;
+	int tail = ship.getSize(index);
+
+	if (ship.getIsVertical(index))
+	{
+		head = ship.getShipY(index);
+
+		if (x > 0)
+		{
+			gameBoard[head - 1][x - 1] = MISS;
+		}
+		if (head > 0)
+		{
+			gameBoard[head - 1][x] = MISS;
+		}
+		if (x < BOARDSIZE - 1)
+		{
+			gameBoard[head - 1][x + 1] = MISS;
+		}
+
+		if (head + tail < BOARDSIZE - 1 && x > 0)
+		{
+			gameBoard[head + tail][x - 1] = MISS;
+		}
+		if (head + tail < BOARDSIZE - 1)
+		{
+			gameBoard[head + tail][x] = MISS;
+		}
+		if (head + tail < BOARDSIZE - 1 && x < BOARDSIZE - 1)
+		{
+			gameBoard[head + tail][x + 1] = MISS;
+		}
+
+		for (int i = 0; i < ship.getSize(index); i++)
+		{
+			if (x > 0)
+			{
+				gameBoard[head + i][x - 1] = MISS;
+			}
+			if (x < BOARDSIZE - 1)
+			{
+				gameBoard[head + i][x + 1] = MISS;
+			}
+		}
+	}
+	else
+	{
+		head = ship.getShipX(index);
+
+		if (head > 0 && y > 0)
+		{
+			gameBoard[y - 1][head - 1] = MISS;
+			gameBoard[y + 1][head - 1] = MISS;
+			gameBoard[y][head - 1] = MISS;
+		}
+
+		if (y > 0)
+		{
+			gameBoard[y - 1][head + tail] = MISS;
+		}
+		if (head + tail < BOARDSIZE - 1)
+		{
+			gameBoard[y][head + tail] = MISS;
+		}
+		if (y < BOARDSIZE - 1)
+		{
+			gameBoard[y + 1][head + tail] = MISS;
+		}
+
+		for (int i = 0; i < ship.getSize(index); i++)
+		{
+			if (y > 0)
+			{
+				gameBoard[y - 1][head + i] = MISS;
+			}
+			if (y < BOARDSIZE - 1)
+			{
+				gameBoard[y + 1][head + i] = MISS;
+			}
+		}
+	}
+
+}
+
 char Board::shootingGetShotResult(int x, int y)
 {
 	return gameBoard[y][x];
@@ -584,6 +671,12 @@ bool Board::shootingCheckHit(int x, int y)
 		if (ship.checkHit(i, x, y))
 		{
 			gameBoard[y][x] = HIT;
+
+			if (ship.getIsDestroyed(i))
+			{
+				shootingSetCellsToMiss(i, x, y);
+			}
+
 			return true;
 		}
 	}
@@ -591,21 +684,47 @@ bool Board::shootingCheckHit(int x, int y)
 	return false;
 }
 
-void Board::shootingTakeShot(int& x, int& y)
+bool Board::shootingTakeShot(int& x, int& y)
 {
+	if (gameBoard[y][x] == HIT || gameBoard[y][x] == MISS)
+	{
+		return false;
+	}
+
 	gameBoard[y][x] = WATER;
 
 	if (shootingGetShotResult(x, y) != HIT && shootingGetShotResult(x, y) != MISS)
 	{
 		shootingCheckHit(x, y);
+		return true;
 	}
 }
 
-
-void Board::shootingPlayer(Board& b)
+bool Board::shootingSearchForNextShot(int& x, int& y)
 {
-	rend.hideCursor(false);
+	for (int j = 0; j < BOARDSIZE; j++)
+	{
+		for (int i = 0; i < BOARDSIZE; i++)
+		{
+			if (gameBoard[j][i] == HIT)
+			{
+				for (int k = 0; k < SHIPCOUNT; k++)
+				{
+					if (ship.searchForHit(k))
+					{
+						x = i, y = j;
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
 
+bool Board::shootingPlayer(Board& b, int& countHits)
+{
+	bool isHit = false;
 	bool endTurn = false;
 	int x, y;
 
@@ -640,16 +759,29 @@ void Board::shootingPlayer(Board& b)
 		case SPACE:
 			x = sight.convertToGameBoardX();
 			y = sight.convertToGameBoardY();
-			b.shootingTakeShot(x, y);
-			sight.setDefault();
-			endTurn = true;
+
+			if (!b.shootingTakeShot(x, y))
+			{
+				endTurn = false;
+			}
+			else
+			{
+				if (b.shootingGetShotResult(x, y) == HIT)
+				{
+					isHit = true;
+					countHits++;
+				}
+				endTurn = true;
+			}
+			break;
 		}
 	}
-	return;
+	return isHit;
 }
 
-void Board::shootingOpponentRandomly(Board& b)
+bool Board::shootingOpponentRandomly(Board& b, int& countHits)
 {
+	bool isHit = false;
 	bool endTurn = false;
 	int x, y;
 
@@ -660,26 +792,67 @@ void Board::shootingOpponentRandomly(Board& b)
 
 		if (b.shootingGetShotResult(x, y) != HIT && b.shootingGetShotResult(x, y) != MISS)
 		{
-			b.shootingCheckHit(x, y);
+			if (b.shootingCheckHit(x, y))
+			{
+				isHit = true;
+				countHits++;
+			}
 			endTurn = true;
 		}
 	}
-	return;
+	return isHit;
 }
 
-//void Board::printOccupiedCells()
-//{
-//	rend::setPosXY(42, 2);
-//	for (int y = 0; y < BOARDSIZE; y++)
-//	{
-//		for (int x = 0; x < BOARDSIZE; x++)
-//		{
-//			if (isOccupied[y][x])
-//			{
-//				rend::outputAt(rend::posX, rend::posY++);
-//				cout << "Occupied cell at (" << y << ", " << x << ")" << endl;
-//			}
-//		}
-//	}
-//	rend::setPosXYDefault();
-//}
+bool Board::shootingOpponentSmart(Board& b, int& countHits) //!!!!!!!!!!!!!!!!!!
+{
+	bool isHit = false;
+	bool endTurn = false;
+	int x, y;
+
+	while (!endTurn)
+	{
+		if (b.shootingSearchForNextShot(x, y))
+		{
+			if (y > 0 && y < BOARDSIZE - 1 && b.shootingGetShotResult(x, y - 1) != HIT && b.shootingGetShotResult(x, y - 1) != MISS)
+			{
+				y--;
+			}
+			else if	(y > 0 && y < BOARDSIZE - 1 && b.shootingGetShotResult(x, y + 1) != HIT && b.shootingGetShotResult(x, y + 1) != MISS)
+			{
+				y++;
+			}	
+			else if (x > 0 && x < BOARDSIZE - 1 && b.shootingGetShotResult(x, y - 1) == HIT || b.shootingGetShotResult(x, y - 1) == MISS)
+			{
+				x--;
+			}
+			else if (y > 0 && y < BOARDSIZE - 1 && b.shootingGetShotResult(x, y + 1) == HIT || b.shootingGetShotResult(x, y + 1) == MISS)
+			{
+				x++;
+			}
+
+			if (b.shootingCheckHit(x, y))
+			{
+				isHit = true;
+				countHits++;
+			}
+			endTurn = true;
+		}
+
+		else
+		{
+			x = rand() % 10;
+			y = rand() % 10;
+
+			if (b.shootingGetShotResult(x, y) != HIT && b.shootingGetShotResult(x, y) != MISS)
+			{
+				if (b.shootingCheckHit(x, y))
+				{
+					isHit = true;
+					countHits++;
+				}
+				endTurn = true;
+			}
+		}
+	}
+	return isHit;
+}
