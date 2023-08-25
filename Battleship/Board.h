@@ -55,6 +55,7 @@ public:
 	bool shootingCheckHit(int x, int y);
 	bool shootingTakeShot(int& x, int& y);
 	bool shootingSearchForNextShot(int& x, int& y);
+	void shootingOffsetCoordsForNextShot(int& x, int& y);
 
 	bool shootingPlayer(Board& b, int& countHits);
 	bool shootingOpponentRandomly(Board& b, int& countHits);

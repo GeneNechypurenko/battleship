@@ -21,6 +21,7 @@ private:
 	Board opponent;
 
 	Menu menu;
+
 	Renderer rend;
 
 public:

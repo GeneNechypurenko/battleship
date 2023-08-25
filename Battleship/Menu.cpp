@@ -142,6 +142,7 @@ void Menu::declareWinnerPlayer(int countHits, int winCondition)
         rend.outputAt(0, 28);
         system("pause");
     }
+    return;
 }
 
 void Menu::declareWinnerOpponent(int countHits, int winCondition)
@@ -160,4 +161,5 @@ void Menu::declareWinnerOpponent(int countHits, int winCondition)
         rend.outputAt(0, 28);
         system("pause");
     }
+    return;
 }

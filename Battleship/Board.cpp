@@ -722,6 +722,613 @@ bool Board::shootingSearchForNextShot(int& x, int& y)
 	return false;
 }
 
+void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
+{
+	if (y == 0 && x == 0)
+	{
+		while (true)
+		{
+			if (gameBoard[y + 1][x] == WATER)
+			{
+				y++;
+				break;
+			}
+			else if (gameBoard[y + 1][x] == MISS)
+			{
+				if (gameBoard[y][x + 1] == WATER)
+				{
+					x++;
+					break;
+				}
+				else if (gameBoard[y][x + 1] == HIT)
+				{
+					for (int i = x + 1; gameBoard[y][i] == HIT; i++)
+					{
+						if (gameBoard[y][i] == WATER)
+						{
+							x = i;
+							break;
+						}
+					}
+					break;  // Make sure to exit the loop after finding water
+				}
+			}
+			else if (gameBoard[y + 1][x] == HIT)
+			{
+				for (int j = y + 1; gameBoard[j][x] == HIT; j++)
+				{
+					if (gameBoard[j][x] == WATER)
+					{
+						y = j;
+						break;
+					}
+				}
+				break;  // Make sure to exit the loop after finding water
+			}
+		}
+	}
+
+
+	else if (y == 0 && x == BOARDSIZE - 1)
+	{
+		while (true)
+		{
+			if (gameBoard[y + 1][x] == WATER)
+			{
+				y++;
+				break;
+			}
+			else if (gameBoard[y + 1][x] == MISS)
+			{
+				if (gameBoard[y][x - 1] == WATER)
+				{
+					x--;
+					break;
+				}
+				else if (gameBoard[y][x - 1] == HIT)
+				{
+					for (int i = x - 1; gameBoard[y][i] == HIT; i--)
+					{
+						if (gameBoard[y][i] == WATER)
+						{
+							x = i;
+							break;
+						}
+					}
+					break;  // Make sure to exit the loop after finding water
+				}
+			}
+			else if (gameBoard[y + 1][x] == HIT)
+			{
+				for (int j = y + 1; gameBoard[j][x] == HIT; j++)
+				{
+					if (gameBoard[j][x] == WATER)
+					{
+						y = j;
+						break;
+					}
+				}
+				break;  // Make sure to exit the loop after finding water
+			}
+		}
+	}
+
+
+	else if (y == BOARDSIZE - 1 && x == 0)
+	{
+		while (true)
+		{
+			if (gameBoard[y - 1][x] == WATER)
+			{
+				y--;
+				break;
+			}
+			else if (gameBoard[y - 1][x] == MISS)
+			{
+				if (gameBoard[y][x + 1] == WATER)
+				{
+					x++;
+					break;
+				}
+				else if (gameBoard[y][x + 1] == HIT)
+				{
+					for (int i = x + 1; gameBoard[y][i] == HIT; i++)
+					{
+						if (gameBoard[y][i] == WATER)
+						{
+							x = i;
+							break;
+						}
+					}
+					break;  // Make sure to exit the loop after finding water
+				}
+			}
+			else if (gameBoard[y - 1][x] == HIT)
+			{
+				for (int j = y - 1; gameBoard[j][x] == HIT; j--)
+				{
+					if (gameBoard[j][x] == WATER)
+					{
+						y = j;
+						break;
+					}
+				}
+				break;  // Make sure to exit the loop after finding water
+			}
+		}
+	}
+
+
+	else if (y == BOARDSIZE - 1 && x == BOARDSIZE - 1)
+	{
+		while (true)
+		{
+			if (gameBoard[y - 1][x] == WATER)
+			{
+				y--;
+				break;
+			}
+			else if (gameBoard[y - 1][x] == MISS)
+			{
+				if (gameBoard[y][x - 1] == WATER)
+				{
+					x--;
+					break;
+				}
+				else if (gameBoard[y][x - 1] == HIT)
+				{
+					for (int i = x - 1; gameBoard[y][i] == HIT; i--)
+					{
+						if (gameBoard[y][i] == WATER)
+						{
+							x = i;
+							break;
+						}
+					}
+					break;  // Make sure to exit the loop after finding water
+				}
+			}
+			else if (gameBoard[y - 1][x] == HIT)
+			{
+				for (int j = y - 1; gameBoard[j][x] == HIT; j--)
+				{
+					if (gameBoard[j][x] == WATER)
+					{
+						y = j;
+						break;
+					}
+				}
+				break;  // Make sure to exit the loop after finding water
+			}
+		}
+	}
+
+
+	else if (y == 0 && (x > 0 && x < BOARDSIZE - 1))
+	{
+		while (true)
+		{
+			if (gameBoard[y + 1][x] == WATER)
+			{
+				y++;
+				break;
+			}
+			else if (gameBoard[y + 1][x] == MISS)
+			{
+				if (gameBoard[y][x + 1] == WATER)
+				{
+					x++;
+					break;
+				}
+				else if (gameBoard[y][x + 1] == HIT)
+				{
+					for (int i = x + 1; gameBoard[y][i] == HIT && i < BOARDSIZE - 1; i++)
+					{
+						if (gameBoard[y][i] == WATER)
+						{
+							x = i;
+							break;
+						}
+					}
+					break;  // Make sure to exit the loop after finding water
+				}
+				else if (gameBoard[y][x + 1] == MISS)
+				{
+					if (gameBoard[y][x - 1] == WATER)
+					{
+						x--;
+						break;
+					}
+					else if (gameBoard[y][x - 1] == HIT)
+					{
+						for (int i = x - 1; gameBoard[y][i] == HIT && i > 0; i--)
+						{
+							if (gameBoard[y][i] == WATER)
+							{
+								x = i;
+								break;
+							}
+						}
+						break;  // Make sure to exit the loop after finding water
+					}
+				}
+			}
+			else if (gameBoard[y + 1][x] == HIT)
+			{
+				for (int j = y + 1; gameBoard[j][x] == HIT; j++)
+				{
+					if (gameBoard[j][x] == WATER)
+					{
+						y = j;
+						break;
+					}
+				}
+				break;  // Make sure to exit the loop after finding water
+			}
+		}
+	}
+
+
+	else if (y == BOARDSIZE - 1 && (x > 0 && x < BOARDSIZE - 1))
+	{
+		while (true)
+		{
+			if (gameBoard[y - 1][x] == WATER)
+			{
+				y--;
+				break;
+			}
+			else if (gameBoard[y - 1][x] == MISS)
+			{
+				if (gameBoard[y][x + 1] == WATER)
+				{
+					x++;
+					break;
+				}
+				else if (gameBoard[y][x + 1] == HIT)
+				{
+					for (int i = x + 1; gameBoard[y][i] == HIT && i < BOARDSIZE - 1; i++)
+					{
+						if (gameBoard[y][i] == WATER)
+						{
+							x = i;
+							break;
+						}
+						else if (gameBoard[y][i] == MISS)
+						{
+							for (int ii = x - 1; gameBoard[y][ii] == HIT && ii > 0; ii--)
+							{
+								if (gameBoard[y][ii] == WATER)
+								{
+									x = ii;
+									break;
+								}
+							}
+							break;  // Exit the inner loop after finding water
+						}
+					}
+					break;  // Exit the outer loop after finding water
+				}
+				else if (gameBoard[y][x + 1] == MISS)
+				{
+					if (gameBoard[y][x - 1] == WATER)
+					{
+						x--;
+						break;
+					}
+					else if (gameBoard[y][x - 1] == HIT)
+					{
+						for (int i = x - 1; gameBoard[y][i] == HIT && i > 0; i--)
+						{
+							if (gameBoard[y][i] == WATER)
+							{
+								x = i;
+								break;
+							}
+						}
+						break;  // Exit the loop after finding water
+					}
+				}
+			}
+			else if (gameBoard[y - 1][x] == HIT)
+			{
+				for (int j = y - 1; gameBoard[j][x] == HIT; j--)
+				{
+					if (gameBoard[j][x] == WATER)
+					{
+						y = j;
+						break;
+					}
+				}
+				break;  // Exit the loop after finding water
+			}
+		}
+	}
+
+
+	else if ((y > 0 && y < BOARDSIZE - 1) && x == 0)
+	{
+		while (true)
+		{
+			if (gameBoard[y][x + 1] == WATER)
+			{
+				x++;
+				break;
+			}
+			else if (gameBoard[y][x + 1] == MISS)
+			{
+				if (gameBoard[y + 1][x] == WATER)
+				{
+					y++;
+					break;
+				}
+				else if (gameBoard[y + 1][x] == HIT)
+				{
+					for (int j = y + 1; gameBoard[j][x] == HIT && j < BOARDSIZE - 1; j++)
+					{
+						if (gameBoard[j][x] == WATER)
+						{
+							y = j;
+							break;
+						}
+						else if (gameBoard[j][x] == MISS)
+						{
+							for (int jj = y - 1; gameBoard[jj][x] == HIT && jj > 0; jj--)
+							{
+								if (gameBoard[jj][x] == WATER)
+								{
+									y = jj;
+									break;
+								}
+							}
+							break;  // Exit the inner loop after finding water
+						}
+					}
+					break;  // Exit the outer loop after finding water
+				}
+				else if (gameBoard[y + 1][x] == MISS)
+				{
+					if (gameBoard[y - 1][x] == WATER)
+					{
+						y--;
+						break;
+					}
+					else if (gameBoard[y - 1][x] == HIT)
+					{
+						for (int j = y - 1; gameBoard[j][x] == HIT && j > 0; j--)
+						{
+							if (gameBoard[j][x] == WATER)
+							{
+								y = j;
+								break;
+							}
+						}
+						break;  // Exit the loop after finding water
+					}
+				}
+			}
+			else if (gameBoard[y][x + 1] == HIT)
+			{
+				for (int i = x + 1; gameBoard[y][i] == HIT && i < BOARDSIZE - 1; i++)
+				{
+					if (gameBoard[y][i] == WATER)
+					{
+						x = i;
+						break;
+					}
+				}
+				break;  // Exit the loop after finding water
+			}
+		}
+	}
+
+
+	else if ((y > 0 && y < BOARDSIZE - 1) && x == BOARDSIZE - 1)
+	{
+		while (true)
+		{
+			if (gameBoard[y][x - 1] == WATER)
+			{
+				x--;
+				break;
+			}
+			else if (gameBoard[y][x - 1] == MISS)
+			{
+				if (gameBoard[y + 1][x] == WATER)
+				{
+					y++;
+					break;
+				}
+				else if (gameBoard[y + 1][x] == HIT)
+				{
+					for (int j = y + 1; gameBoard[j][x] == HIT && j < BOARDSIZE - 1; j++)
+					{
+						if (gameBoard[j][x] == WATER)
+						{
+							y = j;
+							break;
+						}
+						else if (gameBoard[j][x] == MISS)
+						{
+							for (int jj = y - 1; gameBoard[jj][x] == HIT && jj > 0; jj--)
+							{
+								if (gameBoard[jj][x] == WATER)
+								{
+									y = jj;
+									break;
+								}
+							}
+							break;  // Exit the inner loop after finding water
+						}
+					}
+					break;  // Exit the outer loop after finding water
+				}
+				else if (gameBoard[y + 1][x] == MISS)
+				{
+					if (gameBoard[y - 1][x] == WATER)
+					{
+						y--;
+						break;
+					}
+					else if (gameBoard[y - 1][x] == HIT)
+					{
+						for (int j = y - 1; gameBoard[j][x] == HIT && j > 0; j--)
+						{
+							if (gameBoard[j][x] == WATER)
+							{
+								y = j;
+								break;
+							}
+						}
+						break;  // Exit the loop after finding water
+					}
+				}
+			}
+			else if (gameBoard[y][x - 1] == HIT)
+			{
+				for (int i = x - 1; gameBoard[y][i] == HIT && i > 0; i--)
+				{
+					if (gameBoard[y][i] == WATER)
+					{
+						x = i;
+						break;
+					}
+				}
+				break;  // Exit the loop after finding water
+			}
+		}
+	}
+
+
+	else if ((y > 0 && y < BOARDSIZE - 1) && (x > 0 && x < BOARDSIZE - 1))
+	{
+		while (true)
+		{
+			if (gameBoard[y + 1][x] == WATER)
+			{
+				y++;
+				break;
+			}
+			else if (gameBoard[y + 1][x] == MISS)
+			{
+				if (gameBoard[y][x + 1] == WATER)
+				{
+					x++;
+					break;
+				}
+				else if (gameBoard[y][x + 1] == HIT)
+				{
+					for (int i = x + 1; gameBoard[y][i] == HIT && i < BOARDSIZE - 1; i++)
+					{
+						if (gameBoard[y][i] == WATER)
+						{
+							x = i;
+							break;
+						}
+						else if (gameBoard[y][i] == MISS)
+						{
+							for (int ii = x - 1; gameBoard[y][ii] == HIT && ii > 0; ii--)
+							{
+								if (gameBoard[y][ii] == WATER)
+								{
+									x = ii;
+									break;
+								}
+								else if (gameBoard[y][ii] == MISS)
+								{
+									for (int jj = y - 1; gameBoard[jj][x] == HIT && jj > 0; jj--)
+									{
+										if (gameBoard[jj][x] == WATER)
+										{
+											y = jj;
+											break;
+										}
+									}
+									break;  // Exit the innermost loop after finding water
+								}
+							}
+							break;  // Exit the inner loop after finding water or miss
+						}
+					}
+					break;  // Exit the outer loop after finding water or miss
+				}
+				else if (gameBoard[y][x + 1] == MISS)
+				{
+					if (gameBoard[y][x - 1] == WATER)
+					{
+						x--;
+						break;
+					}
+					else if (gameBoard[y][x - 1] == HIT)
+					{
+						for (int i = x - 1; gameBoard[y][i] == HIT && i > 0; i--)
+						{
+							if (gameBoard[y][i] == WATER)
+							{
+								x = i;
+								break;
+							}
+							else if (gameBoard[y][i] == MISS)
+							{
+								if (gameBoard[y - 1][x] == WATER)
+								{
+									y--;
+									break;
+								}
+								else if (gameBoard[y - 1][x] == HIT)
+								{
+									for (int j = y - 1; gameBoard[j][x] == HIT && j > 0; j--)
+									{
+										if (gameBoard[j][x] == WATER)
+										{
+											y = j;
+											break;
+										}
+									}
+									break;  // Exit the innermost loop after finding water
+								}
+							}
+						}
+						break;  // Exit the outer loop after finding water or miss
+					}
+					else if (gameBoard[y][x - 1] == MISS)
+					{
+						if (gameBoard[y - 1][x] == WATER)
+						{
+							y--;
+							break;
+						}
+						else if (gameBoard[y - 1][x] == HIT)
+						{
+							for (int j = y - 1; gameBoard[j][x] == HIT && j > 0; j--)
+							{
+								if (gameBoard[j][x] == WATER)
+								{
+									y = j;
+									break;
+								}
+							}
+							break;  // Exit the loop after finding water
+						}
+					}
+				}
+			}
+			else if (gameBoard[y + 1][x] == HIT)
+			{
+				for (int j = y + 1; gameBoard[j][x] == HIT; j++)
+				{
+					if (gameBoard[j][x] == WATER)
+					{
+						y = j;
+						break;
+					}
+				}
+				break;  // Exit the loop after finding water
+			}
+		}
+	}
+}
+
 bool Board::shootingPlayer(Board& b, int& countHits)
 {
 	bool isHit = false;
@@ -803,7 +1410,7 @@ bool Board::shootingOpponentRandomly(Board& b, int& countHits)
 	return isHit;
 }
 
-bool Board::shootingOpponentSmart(Board& b, int& countHits) //!!!!!!!!!!!!!!!!!!
+bool Board::shootingOpponentSmart(Board& b, int& countHits)
 {
 	bool isHit = false;
 	bool endTurn = false;
@@ -813,35 +1420,27 @@ bool Board::shootingOpponentSmart(Board& b, int& countHits) //!!!!!!!!!!!!!!!!!!
 	{
 		if (b.shootingSearchForNextShot(x, y))
 		{
-			if (y > 0 && y < BOARDSIZE - 1 && b.shootingGetShotResult(x, y - 1) != HIT && b.shootingGetShotResult(x, y - 1) != MISS)
-			{
-				y--;
-			}
-			else if	(y > 0 && y < BOARDSIZE - 1 && b.shootingGetShotResult(x, y + 1) != HIT && b.shootingGetShotResult(x, y + 1) != MISS)
-			{
-				y++;
-			}	
-			else if (x > 0 && x < BOARDSIZE - 1 && b.shootingGetShotResult(x, y - 1) == HIT || b.shootingGetShotResult(x, y - 1) == MISS)
-			{
-				x--;
-			}
-			else if (y > 0 && y < BOARDSIZE - 1 && b.shootingGetShotResult(x, y + 1) == HIT || b.shootingGetShotResult(x, y + 1) == MISS)
-			{
-				x++;
-			}
+			b.shootingOffsetCoordsForNextShot(x, y);
 
-			if (b.shootingCheckHit(x, y))
+			if (!b.shootingTakeShot(x, y))
 			{
-				isHit = true;
-				countHits++;
+				endTurn = false;
 			}
-			endTurn = true;
+			else
+			{
+				if (b.shootingGetShotResult(x, y) == HIT)
+				{
+					isHit = true;
+					countHits++;
+				}
+				endTurn = true;
+			}
 		}
 
 		else
 		{
-			x = rand() % 10;
-			y = rand() % 10;
+			x = rand() % BOARDSIZE;
+			y = rand() % BOARDSIZE;
 
 			if (b.shootingGetShotResult(x, y) != HIT && b.shootingGetShotResult(x, y) != MISS)
 			{

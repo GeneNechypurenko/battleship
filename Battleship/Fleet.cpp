@@ -1,9 +1,8 @@
 #include "Fleet.h"
 
-Fleet::Ship::Ship(int size, string type)
+Fleet::Ship::Ship(int size)
 	:
-	size(size),
-	type(type)
+	size(size)
 {
 	shipX = -1;
 	shipY = -1;
@@ -18,7 +17,7 @@ Fleet::Fleet()
 {
 	for (int i = 0; i < SHIPCOUNT; i++)
 	{
-		ships.push_back(Ship(DECKS[i], TYPES[i]));
+		ships.push_back(Ship(DECKS[i]));
 	}
 }
 

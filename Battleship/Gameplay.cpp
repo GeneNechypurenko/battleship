@@ -71,7 +71,7 @@ void Gameplay::playGame()
 			if (isPlayer)
 			{
 				player.outputPlayerBoard();
-				bptr = &player;
+				bptr = &opponent;
 				isPlayer = player.shootingPlayer(*(bptr), countHitsPlayer) ? true : false;
 				menu.declareWinnerPlayer(countHitsPlayer, winCondition);
 			}

@@ -19,14 +19,6 @@ const int DECKS[SHIPCOUNT] =
 	1, 1, 1, 1
 };
 
-const string TYPES[SHIPCOUNT] =
-{
-	"LINCORE",
-	"FRIGATE", "FRIGATE",
-	"CORVETTE", "CORVETTE", "CORVETTE",
-	"BRIG", "BRIG", "BRIG", "BRIG"
-};
-
 class Fleet
 {
 private:
@@ -34,14 +26,13 @@ private:
 	struct Ship
 	{
 		int size;
-		string type;
 		int shipX;
 		int shipY;
 		bool isVertical;
 		bool isDestroyed;
 		vector <char> depiction;
 
-		Ship(int size, string type);
+		Ship(int size);
 	};
 
 	vector<Ship> ships;
