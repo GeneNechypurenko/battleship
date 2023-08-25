@@ -750,7 +750,7 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 							break;
 						}
 					}
-					break;  // Make sure to exit the loop after finding water
+					break;
 				}
 			}
 			else if (gameBoard[y + 1][x] == HIT)
@@ -763,7 +763,7 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 						break;
 					}
 				}
-				break;  // Make sure to exit the loop after finding water
+				break;
 			}
 		}
 	}
@@ -795,7 +795,7 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 							break;
 						}
 					}
-					break;  // Make sure to exit the loop after finding water
+					break;
 				}
 			}
 			else if (gameBoard[y + 1][x] == HIT)
@@ -808,7 +808,7 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 						break;
 					}
 				}
-				break;  // Make sure to exit the loop after finding water
+				break;
 			}
 		}
 	}
@@ -840,7 +840,7 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 							break;
 						}
 					}
-					break;  // Make sure to exit the loop after finding water
+					break; 
 				}
 			}
 			else if (gameBoard[y - 1][x] == HIT)
@@ -853,7 +853,7 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 						break;
 					}
 				}
-				break;  // Make sure to exit the loop after finding water
+				break;
 			}
 		}
 	}
@@ -885,7 +885,7 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 							break;
 						}
 					}
-					break;  // Make sure to exit the loop after finding water
+					break;
 				}
 			}
 			else if (gameBoard[y - 1][x] == HIT)
@@ -898,7 +898,7 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 						break;
 					}
 				}
-				break;  // Make sure to exit the loop after finding water
+				break;
 			}
 		}
 	}
@@ -930,7 +930,7 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 							break;
 						}
 					}
-					break;  // Make sure to exit the loop after finding water
+					break;
 				}
 				else if (gameBoard[y][x + 1] == MISS)
 				{
@@ -949,7 +949,7 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 								break;
 							}
 						}
-						break;  // Make sure to exit the loop after finding water
+						break;
 					}
 				}
 			}
@@ -963,7 +963,7 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 						break;
 					}
 				}
-				break;  // Make sure to exit the loop after finding water
+				break;
 			}
 		}
 	}
@@ -1004,10 +1004,10 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 									break;
 								}
 							}
-							break;  // Exit the inner loop after finding water
+							break;
 						}
 					}
-					break;  // Exit the outer loop after finding water
+					break;
 				}
 				else if (gameBoard[y][x + 1] == MISS)
 				{
@@ -1026,7 +1026,7 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 								break;
 							}
 						}
-						break;  // Exit the loop after finding water
+						break;
 					}
 				}
 			}
@@ -1040,7 +1040,7 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 						break;
 					}
 				}
-				break;  // Exit the loop after finding water
+				break;
 			}
 		}
 	}
@@ -1081,10 +1081,10 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 									break;
 								}
 							}
-							break;  // Exit the inner loop after finding water
+							break;
 						}
 					}
-					break;  // Exit the outer loop after finding water
+					break;
 				}
 				else if (gameBoard[y + 1][x] == MISS)
 				{
@@ -1103,7 +1103,7 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 								break;
 							}
 						}
-						break;  // Exit the loop after finding water
+						break;
 					}
 				}
 			}
@@ -1117,7 +1117,7 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 						break;
 					}
 				}
-				break;  // Exit the loop after finding water
+				break;
 			}
 		}
 	}
@@ -1158,10 +1158,10 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 									break;
 								}
 							}
-							break;  // Exit the inner loop after finding water
+							break;
 						}
 					}
-					break;  // Exit the outer loop after finding water
+					break;
 				}
 				else if (gameBoard[y + 1][x] == MISS)
 				{
@@ -1180,7 +1180,7 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 								break;
 							}
 						}
-						break;  // Exit the loop after finding water
+						break;
 					}
 				}
 			}
@@ -1194,7 +1194,7 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 						break;
 					}
 				}
-				break;  // Exit the loop after finding water
+				break;
 			}
 		}
 	}
@@ -1244,13 +1244,13 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 											break;
 										}
 									}
-									break;  // Exit the innermost loop after finding water
+									break;
 								}
 							}
-							break;  // Exit the inner loop after finding water or miss
+							break;
 						}
 					}
-					break;  // Exit the outer loop after finding water or miss
+					break;
 				}
 				else if (gameBoard[y][x + 1] == MISS)
 				{
@@ -1285,11 +1285,11 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 											break;
 										}
 									}
-									break;  // Exit the innermost loop after finding water
+									break;
 								}
 							}
 						}
-						break;  // Exit the outer loop after finding water or miss
+						break;
 					}
 					else if (gameBoard[y][x - 1] == MISS)
 					{
@@ -1308,7 +1308,7 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 									break;
 								}
 							}
-							break;  // Exit the loop after finding water
+							break;
 						}
 					}
 				}
@@ -1323,7 +1323,7 @@ void Board::shootingOffsetCoordsForNextShot(int& x, int& y)
 						break;
 					}
 				}
-				break;  // Exit the loop after finding water
+				break;
 			}
 		}
 	}
@@ -1410,7 +1410,7 @@ bool Board::shootingOpponentRandomly(Board& b, int& countHits)
 	return isHit;
 }
 
-bool Board::shootingOpponentSmart(Board& b, int& countHits)
+bool Board::shootingOpponentSmart(Board& b, int& countHits) // not working, most of time entering in endless cycle!!!
 {
 	bool isHit = false;
 	bool endTurn = false;
